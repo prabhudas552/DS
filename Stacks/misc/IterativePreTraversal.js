@@ -29,30 +29,25 @@ function Stack()
 	}
 }
 
-function postorderTraversal(root)
+function preorderTraversal(root)
 {
 	if(root)
 	{
 		var stack = new Stack();
-		var tempStack = new Stack();
-		tempStack.push(root);
+		stack.push(root);
 		var ans = '';
-		while(!tempStack.isEmpty())
-		{
-			var top = tempStack.pop();
-			stack.push(top);
-			if(top.left)
-			{
-				tempStack.push(top.left);
-			}
-			if(top.left)
-			{
-				tempStack.push(top.right);
-			}
-		}
 		while(!stack.isEmpty())
 		{
-			ans+=stack.pop().val + " ";
+			var top = stack.pop();
+			ans += top.val +" ";
+			if(top.right)
+			{
+				stack.push(top.right);
+			}
+			if(top.left)
+			{
+				stack.push(top.left);
+			}
 		}
 		console.log(ans);
 	}
@@ -65,4 +60,4 @@ root.left.right = new Node(5);
 root.right = new Node(3);
 root.right.left = new Node(6);
 root.right.right = new Node(7);
-postorderTraversal(root);
+preorderTraversal(root);

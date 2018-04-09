@@ -23,6 +23,16 @@ function Stack()
 		return arr.pop();
 	}
 
+	this.top = function()
+	{
+		if(!this.isEmpty())
+		{
+			console.log("stack empty");
+			return;
+		}
+		return arr[arr.length-1];
+	}
+
 	this.isEmpty = function()
 	{
 		return arr.length == 0;
@@ -33,27 +43,34 @@ function postorderTraversal(root)
 {
 	if(root)
 	{
-		var stack = new Stack();
-		var tempStack = new Stack();
-		tempStack.push(root);
 		var ans = '';
-		while(!tempStack.isEmpty())
+		var stack = new Stack();
+		do
 		{
-			var top = tempStack.pop();
-			stack.push(top);
-			if(top.left)
+			while(root)
 			{
-				tempStack.push(top.left);
+				if(root.right)
+				{
+					stack.push(root.right);
+				}
+				stack.push(root);
+				root = root.left;
 			}
-			if(top.left)
+
+			root = stack.pop();
+			if(root.right && root.right == stack.top())
 			{
-				tempStack.push(top.right);
+				stack.pop();
+				stack.push(root);
+				root = root.right;
 			}
-		}
-		while(!stack.isEmpty())
-		{
-			ans+=stack.pop().val + " ";
-		}
+			else
+			{
+				ans+=root.val+" ";
+				root = null;
+			}
+
+		}while(!stack.isEmpty());
 		console.log(ans);
 	}
 }
